@@ -643,15 +643,15 @@
   #endif
 
   // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
-  #define DELTA_PRINTABLE_RADIUS 110.0    // (mm)
+  #define DELTA_PRINTABLE_RADIUS 100.0    // (mm)
 
   // Center-to-center distance of the holes in the diagonal push rods.
-  #define DELTA_DIAGONAL_ROD 250.0        // (mm)
+  #define DELTA_DIAGONAL_ROD 253.0        // (mm)
 
   // Distance between bed and nozzle Z home position
-  #define DELTA_HEIGHT 417.49             // (mm) Get this value from G33 auto calibrate
+  #define DELTA_HEIGHT 417.46             // (mm) Get this value from G33 auto calibrate
 
-  #define DELTA_ENDSTOP_ADJ { -3.48, 0.0, -3.14 } // Get these values from G33 auto calibrate
+  #define DELTA_ENDSTOP_ADJ { -2.968, 0.0, -3.622 } // Get these values from G33 auto calibrate
 
   // Horizontal distance bridged by diagonal push rods when effector is centered.
   #define DELTA_RADIUS 116.93              // (mm) Get this value from G33 auto calibrate
@@ -846,13 +846,20 @@
  * When changing speed and direction, if the difference is less than the
  * value set here, it may happen instantaneously.
  */
-//#define CLASSIC_JERK
+#define CLASSIC_JERK
 #if ENABLED(CLASSIC_JERK)
-  #define DEFAULT_XJERK 10.0
-  #define DEFAULT_YJERK 10.0
-  #define DEFAULT_ZJERK  0.3
-
-  //#define LIMITED_JERK_EDITING        // Limit edit via M205 or LCD to DEFAULT_aJERK * 2
+  #if ENABLED(DELTA)
+    #define DEFAULT_JERK 10.0
+    
+    #define DEFAULT_XJERK DEFAULT_JERK
+    #define DEFAULT_YJERK DEFAULT_JERK
+    #define DEFAULT_ZJERK DEFAULT_JERK
+  #else
+    #define DEFAULT_XJERK 10.0
+    #define DEFAULT_YJERK 10.0
+    #define DEFAULT_ZJERK 0.3
+  #endif
+  //#define LIMITED_JERK_EDITING        // Limit edit via M205 or LCD to DEFAULT_JERK * 2
   #if ENABLED(LIMITED_JERK_EDITING)
     #define MAX_JERK_EDIT_VALUES { 20, 20, 0.6, 10 } // ...or, set your own edit limits
   #endif
